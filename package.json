@@ -4,19 +4,20 @@
   "description": "[fastcampus] 30개 프로젝트로 배우는 프론트엔드 with React",
   "main": "index.js",
   "scripts": {
+    +   "start": "snowpack dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/productuidev/03_date-picker.git"
-  },
+  // "repository": {
+  //   "type": "git",
+  //   "url": "git+https://github.com/productuidev/03_date-picker.git"
+  // },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/productuidev/03_date-picker/issues"
-  },
-  "homepage": "https://github.com/productuidev/03_date-picker#readme",
+  // "bugs": {
+  //   "url": "https://github.com/productuidev/03_date-picker/issues"
+  // },
+  // "homepage": "https://github.com/productuidev/03_date-picker#readme",
   "devDependencies": {
     "@snowpack/plugin-sass": "^1.4.0",
     "snowpack": "^3.8.8"
