@@ -1,7 +1,7 @@
 class DatePicker {
   // Public
   // 월 정보 (string array)
-  monthDate = [
+  monthData = [
     'January',
     'February',
     'March',
@@ -86,6 +86,7 @@ class DatePicker {
     this.updateDates();
   }
 
+  // 업데이트 될 때 해당 월 동적 생성
   updateMonth() {
     // console.log(this.#calendarDate.year);
     this.monthContentEl.textContent = `${this.#calendarDate.year} ${
@@ -93,7 +94,37 @@ class DatePicker {
     }`;
   }
 
-  updateDates() {}
+  // 업데이트 될 때 해당 날짜 동적 생성
+  updateDates() {
+    this.calendarDatesEl.innerHTML = ''; // 업데이트 될 때 캘린더에 들어간 날짜를 비우기 (새로 생성해야 하므로)
+
+    // 날짜가 며칠 있는지 확인
+    const numberofDates = new Date(
+      this.#calendarDate.year,
+      this.#calendarDate.month + 1, // index 0~11이라서 +1
+      0,
+    ).getDate();
+
+    // 총 날짜를 기반으로 element 생성
+
+    // console에서 월별 날짜 확인
+    // new Date(2022,1,0).getDate() // 31
+    // new Date(2022,2,0).getDate() // 28
+    // new Date(2022,3,0).getDate() // 31 ...
+
+    // fragment 생성
+    const fragment = new DocumentFragment();
+
+    for (let i = 0; i < numberofDates; i++) {
+      const dateEl = document.createElement('div');
+      dateEl.classList.add('date');
+      dateEl.textContent = i + 1; // for문이 0부터 돌게되므로 +1
+      dateEl.dataset.date = i + 1;
+      fragment.appendChild(dateEl); // append
+    }
+
+    this.calendarDatesEl.appendChild(fragment);
+  }
 }
 
 // 인스턴스
