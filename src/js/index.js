@@ -17,7 +17,7 @@ class DatePicker {
   ];
 
   // Private
-  #clanedarDate = {
+  #calendarDate = {
     data: '', // 달력이 보이는데 사용될 data 정보
     date: 0,
     month: 0,
@@ -36,13 +36,14 @@ class DatePicker {
   dateInputEl;
   calendarEl;
   calendarMonthEl;
-  monthContentEl;
+  montnContentEl;
   nextBtnEl;
   prevBtnEl;
   calendarDatesEl;
 
   constructor() {
-    this.assignElememnt();
+    this.initCalendarDate();
+    this.assignElement();
     this.addEvent();
   }
 
@@ -52,8 +53,8 @@ class DatePicker {
     const date = data.getDate(); // 며칠인지 정보
     const month = data.getMonth(); // 몇월인지 정보 (1~12월인데, index로 리턴하므로 0~11인 것 유의)
     const year = data.getFullYear(); // 몇년도인지 정보
-    // 위에 것을 calendarDate 객체에 담아주기
-    this.#clanedarDate = {
+    // calendarDate 객체에 담아주기
+    this.#calendarDate = {
       data,
       date,
       month,
@@ -62,7 +63,7 @@ class DatePicker {
   }
 
   // 요소 찾기
-  assignElememnt() {
+  assignElement() {
     this.datePickerEl = document.getElementById('date-picker');
     this.dateInputEl = this.datePickerEl.querySelector('#date-input');
     this.calendarEl = this.datePickerEl.querySelector('#calendar');
@@ -78,10 +79,21 @@ class DatePicker {
     this.dateInputEl.addEventListener('click', this.toggleCalendar.bind(this));
   }
 
-  // toggle
+  // 캘린더를 toggle할 때
   toggleCalendar() {
     this.calendarEl.classList.toggle('active');
+    this.updateMonth();
+    this.updateDates();
   }
+
+  updateMonth() {
+    // console.log(this.#calendarDate.year);
+    this.monthContentEl.textContent = `${this.#calendarDate.year} ${
+      this.monthData[this.#calendarDate.month]
+    }`;
+  }
+
+  updateDates() {}
 }
 
 // 인스턴스
