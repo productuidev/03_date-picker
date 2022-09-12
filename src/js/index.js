@@ -131,6 +131,43 @@ class DatePicker {
       new Date(this.#calendarDate.year, this.#calendarDate.month, 1).getDay() +
       1;
     this.calendarDatesEl.appendChild(fragment);
+
+    // 토요일, 일요일 날짜를 찾아서 메소드로 표시
+    this.colorSaturday();
+    this.colorSunday();
+  }
+
+  colorSaturday() {
+    // 토요일 요소 전체 찾기
+    // nth-child의 조건
+    const saturdayEls = this.calendarDatesEl.querySelectorAll(
+      `.date:nth-child(7n+${
+        7 -
+        new Date(this.#calendarDate.year, this.#calendarDate.month, 1).getDay()
+      })`,
+    );
+    for (let i = 0; i < saturdayEls.length; i++) {
+      saturdayEls[i].style.color = 'blue';
+    }
+  }
+
+  // 일요일 요소 전체 찾기
+  // nth-child의 조건
+  colorSunday() {
+    const sundayEls = this.calendarDatesEl.querySelectorAll(
+      `.date:nth-child(7n+${
+        (8 -
+          new Date(
+            this.#calendarDate.year,
+            this.#calendarDate.month,
+            1,
+          ).getDay()) %
+        7
+      })`,
+    );
+    for (let i = 0; i < sundayEls.length; i++) {
+      sundayEls[i].style.color = 'red';
+    }
   }
 }
 
