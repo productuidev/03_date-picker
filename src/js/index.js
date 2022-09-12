@@ -123,6 +123,13 @@ class DatePicker {
       fragment.appendChild(dateEl); // append
     }
 
+    // 그 달에서 첫번째로 시작해야 하는 날짜의 컬럼 구하기
+    // new Date(2022, 0, 1) // Sat Jan 01 2022 00:00:00 GMT+0900 (한국 표준시)
+    // new Date(2022, 0, 1).getDay() // 6
+    // new Date(2022, 0, 1).getDay()+1 // 7
+    fragment.firstChild.style.gridColumnStart =
+      new Date(this.#calendarDate.year, this.#calendarDate.month, 1).getDay() +
+      1;
     this.calendarDatesEl.appendChild(fragment);
   }
 }
