@@ -135,6 +135,27 @@ class DatePicker {
     // 토요일, 일요일 날짜를 찾아서 색상으로 표시하는 메소드
     this.colorSaturday();
     this.colorSunday();
+
+    // 오늘 날짜를 찾아서 표시하는 메소드
+    this.markToday();
+  }
+
+  // 조건 : 현재 년도와 현재 월이 #dates의 연/월과 맞다면
+  // data-date 속성을 찾아서 today 클래스 추가 시 배경색상으로 표시됨
+  markToday() {
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth();
+    const currentYear = currentDate.getFullYear();
+    const today = currentDate.getDate();
+
+    if (
+      currentYear === this.#calendarDate.year &&
+      currentMonth === this.#calendarDate.month
+    ) {
+      this.calendarDatesEl
+        .querySelector(`[data-date='${today}']`)
+        .classList.add('today');
+    }
   }
 
   // 토요일 요소 전체 찾기 > 파란색 표시
