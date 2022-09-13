@@ -132,14 +132,18 @@ class DatePicker {
       1;
     this.calendarDatesEl.appendChild(fragment);
 
-    // 토요일, 일요일 날짜를 찾아서 메소드로 표시
+    // 토요일, 일요일 날짜를 찾아서 색상으로 표시하는 메소드
     this.colorSaturday();
     this.colorSunday();
   }
 
+  // 토요일 요소 전체 찾기 > 파란색 표시
+  // 매 토요일 : dates에서 탐색
+  // nth-child의 조건 : &:nth-child(7n + 1)
+  // new Date(2022, 0, 1).getDay() // 6 (index)
+  // (7 x 0) + 1 = 1
+  // (7n + 1) → 1, 8, 15, 22, 29번째
   colorSaturday() {
-    // 토요일 요소 전체 찾기
-    // nth-child의 조건
     const saturdayEls = this.calendarDatesEl.querySelectorAll(
       `.date:nth-child(7n+${
         7 -
@@ -151,8 +155,12 @@ class DatePicker {
     }
   }
 
-  // 일요일 요소 전체 찾기
-  // nth-child의 조건
+  // 일요일 요소 전체 찾기 > 빨간색 표시
+  // 매 일요일 : dates에서 탐색
+  // nth-child의 조건 : &:nth-child(7n + 2)
+  // new Date(2022, 0, 2).getDay() // 7 (index)
+  // (7 x 0) + 2 = 2
+  // (7n + 2) → 2, 9, 16, 23, 30번째
   colorSunday() {
     const sundayEls = this.calendarDatesEl.querySelectorAll(
       `.date:nth-child(7n+${
