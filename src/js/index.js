@@ -43,8 +43,22 @@ class DatePicker {
 
   constructor() {
     this.initCalendarDate();
+    this.initSelectedDate();
     this.assignElement();
+    this.setDateInput();
     this.addEvent();
+  }
+
+  // input 초기 선택 날짜
+  initSelectedDate() {
+    this.selectedDate = { ...this.#calendarDate };
+  }
+
+  // input 초기 설정
+  // 날짜 형식 및 data-value
+  setDateInput() {
+    this.dateInputEl.textContent = this.formateDate(this.selectedDate.data);
+    this.dateInputEl.dataset.value = this.selectedDate.data;
   }
 
   // 날짜 정보 초기화
@@ -81,6 +95,61 @@ class DatePicker {
     // 다음 달/이전 달 이동 버튼
     this.nextBtnEl.addEventListener('click', this.moveToNextMonth.bind(this));
     this.prevBtnEl.addEventListener('click', this.moveToPrevMonth.bind(this));
+
+    // input 선택 날짜 입력
+    this.calendarDatesEl.addEventListener(
+      'click',
+      this.onClickSelectDate.bind(this),
+    );
+  }
+
+  // input 선택 날짜 입력
+  // data-date 속성 활용
+  // 이벤트 버블링을 이용해서 조건 걸기
+  onClickSelectDate() {
+    const eventTarget = event.target;
+    if (eventTarget.dataset.date) {
+      this.calendarDatesEl
+        .querySelector('.selected')
+        ?.classList.remove('selected'); // 없을수도 있으므로 ?
+      eventTarget.classList.add('selected');
+
+      // 선택한 날짜
+      this.selectedDate = {
+        data: new Date(
+          this.#calendarDate.year,
+          this.#calendarDate.month,
+          eventTarget.dataset.date,
+        ),
+        year: this.#calendarDate.year,
+        month: this.#calendarDate.month,
+        date: eventTarget.dataset.date,
+      };
+
+      // 날짜 형식 및 data-value
+      // this.dateInputEl.textContent = this.formateDate(this.selectedDate.data);
+      // this.dateInputEl.dataset.value = this.selectedDate.data;
+      this.setDateInput();
+
+      // 캘린더 선택 시 제거
+      this.calendarEl.classList.remove('active');
+    }
+  }
+
+  // 날짜 형식 (포맷)
+  formateDate(dateData) {
+    let date = dateData.getDate();
+    if (date < 10) {
+      date = `0${date}`;
+    }
+
+    let month = dateData.getMonth();
+    if (date < 10) {
+      month = `0${month}`;
+    }
+
+    let year = dateData.getFullYear();
+    return `${year}/${month}/${date}`;
   }
 
   // 캘린더 다음 달 이동 버튼
@@ -88,9 +157,9 @@ class DatePicker {
     this.#calendarDate.month++; // +1 증가
     // 조건 1월이 되면 (0~11)
     // 다음해로 -1, 다시 12월 (11) 으로
-    if (this.#calendarDate.month > 0) {
-      this.#calendarDate.month = 11;
-      this.#calendarDate.year--;
+    if (this.#calendarDate.month > 11) {
+      this.#calendarDate.month = 0;
+      this.#calendarDate.year++;
     }
     this.updateMonth(); // 월 갱신
     this.updateDates(); // 일 갱신
@@ -101,9 +170,9 @@ class DatePicker {
     this.#calendarDate.month--; // -1 감소
     // 조건 12월이 되면 (0~11)
     // 다음해로 +1, 다시 1월 (0) 으로
-    if (this.#calendarDate.month > 11) {
-      this.#calendarDate.month = 0;
-      this.#calendarDate.year++;
+    if (this.#calendarDate.month < 0) {
+      this.#calendarDate.month = 11;
+      this.#calendarDate.year--;
     }
     this.updateMonth(); // 월 갱신
     this.updateDates(); // 일 갱신
