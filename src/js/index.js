@@ -77,7 +77,15 @@ class DatePicker {
   addEvent() {
     // date-input을 눌렀을 때 캘린더가 보이는 이벤트
     this.dateInputEl.addEventListener('click', this.toggleCalendar.bind(this));
+    this.nextBtnEl.addEventListener('click', this.moveToNextMonth.bind(this));
+    this.prevBtnEl.addEventListener('click', this.moveToPrevMonth.bind(this));
   }
+
+  // 캘린더 다음 달 이동 버튼
+  moveToNextMonth() {}
+
+  // 캘린더 이전 달 이동 버튼
+  moveToPrevMonth() {}
 
   // 캘린더를 toggle할 때
   toggleCalendar() {
