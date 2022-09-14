@@ -85,7 +85,20 @@ class DatePicker {
 
   // 캘린더 다음 달 이동 버튼
   moveToNextMonth() {
-    this.#calendarDate.month++; // 1+ 증가
+    this.#calendarDate.month++; // +1 증가
+    // 조건 1월이 되면 (0~11)
+    // 다음해로 -1, 다시 12월 (11) 으로
+    if (this.#calendarDate.month > 0) {
+      this.#calendarDate.month = 11;
+      this.#calendarDate.year--;
+    }
+    this.updateMonth(); // 월 갱신
+    this.updateDates(); // 일 갱신
+  }
+
+  // 캘린더 이전 달 이동 버튼
+  moveToPrevMonth() {
+    this.#calendarDate.month--; // -1 감소
     // 조건 12월이 되면 (0~11)
     // 다음해로 +1, 다시 1월 (0) 으로
     if (this.#calendarDate.month > 11) {
@@ -95,9 +108,6 @@ class DatePicker {
     this.updateMonth(); // 월 갱신
     this.updateDates(); // 일 갱신
   }
-
-  // 캘린더 이전 달 이동 버튼
-  moveToPrevMonth() {}
 
   // 캘린더를 toggle할 때
   toggleCalendar() {
