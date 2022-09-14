@@ -77,12 +77,24 @@ class DatePicker {
   addEvent() {
     // date-input을 눌렀을 때 캘린더가 보이는 이벤트
     this.dateInputEl.addEventListener('click', this.toggleCalendar.bind(this));
+
+    // 다음 달/이전 달 이동 버튼
     this.nextBtnEl.addEventListener('click', this.moveToNextMonth.bind(this));
     this.prevBtnEl.addEventListener('click', this.moveToPrevMonth.bind(this));
   }
 
   // 캘린더 다음 달 이동 버튼
-  moveToNextMonth() {}
+  moveToNextMonth() {
+    this.#calendarDate.month++; // 1+ 증가
+    // 조건 12월이 되면 (0~11)
+    // 다음해로 +1, 다시 1월 (0) 으로
+    if (this.#calendarDate.month > 11) {
+      this.#calendarDate.month = 0;
+      this.#calendarDate.year++;
+    }
+    this.updateMonth(); // 월 갱신
+    this.updateDates(); // 일 갱신
+  }
 
   // 캘린더 이전 달 이동 버튼
   moveToPrevMonth() {}
