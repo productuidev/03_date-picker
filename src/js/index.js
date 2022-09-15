@@ -235,12 +235,12 @@ class DatePicker {
     this.colorSaturday();
     this.colorSunday();
 
-    // 오늘 날짜를 찾아서 표시하는 메소드
-    this.markToday();
+    this.markToday(); // 오늘 날짜를 찾아서 표시하는 메소드
+    this.markSelectedDate(); // 선택된 날짜를 마크하는 메소드
   }
 
   // 조건 : 현재 년도와 현재 월이 #dates의 연/월과 맞다면
-  // data-date 속성을 찾아서 today 클래스 추가 시 배경색상으로 표시됨
+  // data-date 속성을 찾아서 today 클래스 추가 시 배경색상(#ca92ff)으로 표시됨
   markToday() {
     const currentDate = new Date();
     const currentMonth = currentDate.getMonth();
@@ -254,6 +254,19 @@ class DatePicker {
       this.calendarDatesEl
         .querySelector(`[data-date='${today}']`)
         .classList.add('today');
+    }
+  }
+
+  // 조건 : 선택된 해/달과 비교
+  // data-date 속성을 찾아 selected 클래스 추가 시 배경색상(#00ca85)으로 표시
+  markSelectedDate() {
+    if (
+      this.selectedDate.year === this.#calendarDate.year &&
+      this.selectedDate.month === this.#calendarDate.month
+    ) {
+      this.calendarDatesEl
+        .querySelector(`[data-date='${this.selectedDate.date}']`)
+        .classList.add('selected');
     }
   }
 
