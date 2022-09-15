@@ -143,8 +143,8 @@ class DatePicker {
       date = `0${date}`;
     }
 
-    let month = dateData.getMonth();
-    if (date < 10) {
+    let month = dateData.getMonth() + 1;
+    if (month < 10) {
       month = `0${month}`;
     }
 
@@ -180,6 +180,10 @@ class DatePicker {
 
   // 캘린더를 toggle할 때
   toggleCalendar() {
+    // 캘린더 toggle에서 닫을 때 보고 있는 날짜를 선택된 날짜 기반으로 보도록 (다시 toggle 시)
+    if (this.calendarEl.classList.contains('active')) {
+      this.#calendarDate = { ...this.selectedDate };
+    }
     this.calendarEl.classList.toggle('active');
     this.updateMonth();
     this.updateDates();
@@ -198,9 +202,10 @@ class DatePicker {
     this.calendarDatesEl.innerHTML = ''; // 업데이트 될 때 캘린더에 들어간 날짜를 비우기 (새로 생성해야 하므로)
 
     // 날짜가 며칠 있는지 확인
-    const numberofDates = new Date(
+    // index 0~11이라서 +1
+    const numberOfDates = new Date(
       this.#calendarDate.year,
-      this.#calendarDate.month + 1, // index 0~11이라서 +1
+      this.#calendarDate.month + 1,
       0,
     ).getDate();
 
@@ -213,13 +218,12 @@ class DatePicker {
 
     // fragment 생성
     const fragment = new DocumentFragment();
-
-    for (let i = 0; i < numberofDates; i++) {
+    for (let i = 0; i < numberOfDates; i++) {
       const dateEl = document.createElement('div');
       dateEl.classList.add('date');
-      dateEl.textContent = i + 1; // for문이 0부터 돌게되므로 +1
+      dateEl.textContent = i + 1;
       dateEl.dataset.date = i + 1;
-      fragment.appendChild(dateEl); // append
+      fragment.appendChild(dateEl);
     }
 
     // 그 달에서 첫번째로 시작해야 하는 날짜의 컬럼 구하기
@@ -246,7 +250,6 @@ class DatePicker {
     const currentMonth = currentDate.getMonth();
     const currentYear = currentDate.getFullYear();
     const today = currentDate.getDate();
-
     if (
       currentYear === this.#calendarDate.year &&
       currentMonth === this.#calendarDate.month
